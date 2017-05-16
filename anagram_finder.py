@@ -1,7 +1,7 @@
 #import nltk
 
 def find_anagrams(text, lexicon):
-	results = ""#[]
+	results = []
 
 	for word in lexicon:
 		try_text = text
@@ -11,8 +11,14 @@ def find_anagrams(text, lexicon):
 			else:
 				break
 		else:
-			#for rest_option in find_anagrams(try_text, lexicon):
-			#	results.append(word + " " + rest_option)
-			results = word + " " + find_anagrams(try_text, lexicon)
-
+			if len(try_text) == 0:
+				results = [word]
+			else:
+				rest_anagrams = find_anagrams(try_text, lexicon)
+				for rest_anagram in rest_anagrams:
+					results.append(word + " " + rest_anagram)
+	
 	return results
+
+lexicon = ["i", "me", "us", "we", "you", "are", "am", "is", "was", "be", "this", "these", "that", "those"]
+print(find_anagrams("matthias", lexicon))
