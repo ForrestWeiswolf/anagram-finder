@@ -1,3 +1,9 @@
+import nltk
+from nltk.corpus import gutenberg
+corpus = gutenberg.words('bible-kjv.txt') + gutenberg.words('blake-poems.txt')
+lexicon = set(w.lower() for w in corpus)
+print("Lexicon compiled")
+
 import re
 
 def find_anagrams(text, lexicon):
