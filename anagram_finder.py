@@ -8,7 +8,7 @@ import re
 
 def find_anagrams(text, lexicon):
 	results = []
-	text = re.sub(r'\W+', '',text)
+	text = re.sub('\W+', '', text)
 
 	for word in lexicon:
 		try_text = text
