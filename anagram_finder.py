@@ -6,26 +6,29 @@ print("Lexicon compiled")
 
 import re
 
-def find_anagrams(text, lexicon):
+def find_anagrams(text, lexicon, limit):
 	results = []
 	text = re.sub('\W+', '', text).lower()
 	stack = [("", text)]
 
 	while len(stack) > 0:
-		option = stack.pop(0)
-		part_anagram = option[0]
-		remaining = option[1]
-		if len(remaining) == 0:
-			results.append(part_anagram)
+		if len(results) >= limit:
+			return results
 		else:
-			for word in lexicon:
-				try_text = remaining
-				for l in word:
-					if (try_text.find(l) != -1):
-						try_text = try_text.replace(l, "", 1)
+			option = stack.pop(0)
+			part_anagram = option[0]
+			remaining = option[1]
+			if len(remaining) == 0:
+				results.append(part_anagram)
+			else:
+				for word in lexicon:
+					try_text = remaining
+					for l in word:
+						if (try_text.find(l) != -1):
+							try_text = try_text.replace(l, "", 1)
+						else:
+							break
 					else:
-						break
-				else:
-					stack.append((" ".join([part_anagram, word]), try_text))
+						stack.append((" ".join([part_anagram, word]), try_text))
 
 	return results
