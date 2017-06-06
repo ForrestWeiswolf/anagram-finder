@@ -8,21 +8,24 @@ import re
 
 def find_anagrams(text, lexicon):
 	results = []
-	text = re.sub('\W+', '', text)
+	text = re.sub('\W+', '', text).lower()
+	stack = [("", text)]
 
-	for word in lexicon:
-		try_text = text
-		for l in word:
-			if (try_text.find(l) != -1):
-				try_text = try_text.replace(l, "", 1)
-			else:
-				break
+	while len(stack) > 0:
+		option = stack.pop(0)
+		part_anagram = option[0]
+		remaining = option[1]
+		if len(remaining) == 0:
+			results.append(part_anagram)
 		else:
-			if len(try_text) == 0:
-				results = [word]
-			else:
-				rest_anagrams = find_anagrams(try_text, lexicon)
-				for rest_anagram in rest_anagrams:
-					results.append(word + " " + rest_anagram)
-	
+			for word in lexicon:
+				try_text = remaining
+				for l in word:
+					if (try_text.find(l) != -1):
+						try_text = try_text.replace(l, "", 1)
+					else:
+						break
+				else:
+					stack.append((" ".join([part_anagram, word]), try_text))
+
 	return results
